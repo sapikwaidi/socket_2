@@ -22,13 +22,25 @@ class Utama():
             client, alamat = s.accept()
             print("Menerima data dari: ", alamat)
             while True:
+                # decode jika data dikirim
                 data = client.recv(1024).decode()
                 if not data:
                     break
                 print("Pesan masuk: ", str(data))
                 data = input(">")
+                # encode data diterima
                 client.send(data.encode())
-                
+        elif pilihan =="2":
+            alamatServer = input("Masukan alamat server: ")
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.connect((alamatServer, 2120))
+            pesan = input(">")
+            while pesan != "bye":
+                s.send(pesan.encode())
+                data = s.recv(1024).decode()
+                print("Server: ", data)
+                pesan(input(">"))
+            s.close()      
         else:
             quit()
     
